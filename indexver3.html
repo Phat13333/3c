@@ -1,0 +1,742 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap');
+  :root{
+    --ink:#1c2a33;
+    --paper:#f7f4ec;
+    --panel:#ffffff;
+    --line:#d9d2bf;
+    --navy:#243b53;
+    --navy-dim:#4a6178;
+    --amber:#b6742a;
+    --amber-soft:#f0e3cc;
+    --good:#3c7a5c;
+    --radius:10px;
+    --serif: 'Lora', Georgia, 'Times New Roman', serif;
+    --sans: 'Be Vietnam Pro', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  .app{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    min-height:600px;
+    display:flex;
+    flex-direction:column;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .topbar{
+    background:var(--navy);
+    color:#f2ede0;
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .topbar .brand{
+    font-family:var(--serif);
+    font-size:18px;
+    letter-spacing:.2px;
+  }
+  .topbar .brand small{
+    display:block;
+    font-family:var(--sans);
+    font-size:11px;
+    color:#c9d4de;
+    font-weight:400;
+    letter-spacing:.4px;
+    margin-top:2px;
+  }
+  .topbar .actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .pillbtn{
+    background:transparent;
+    border:1px solid #5c7284;
+    color:#e7ecf1;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    cursor:pointer;
+  }
+  .pillbtn:hover{ background:#33475c; }
+
+  /* ---- Login screen ---- */
+  .login{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px;
+  }
+  .login-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px 26px;
+    max-width:380px;
+    width:100%;
+    box-shadow:0 2px 10px rgba(30,40,50,.06);
+  }
+  .login-card h2{
+    font-family:var(--serif);
+    margin:0 0 6px;
+    font-size:20px;
+    color:var(--navy);
+  }
+  .login-card p{
+    margin:0 0 18px;
+    font-size:13px;
+    color:var(--navy-dim);
+    line-height:1.5;
+  }
+  .login-card input{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:15px;
+    margin-bottom:10px;
+    background:#fffdf8;
+  }
+  .login-card select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:14px;
+    margin-bottom:14px;
+    background:#fffdf8;
+  }
+  .primary{
+    width:100%;
+    background:var(--amber);
+    color:#fff;
+    border:none;
+    padding:11px;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .primary:hover{ background:#9c621f; }
+  .note{
+    font-size:11.5px;
+    color:var(--navy-dim);
+    margin-top:12px;
+    line-height:1.5;
+    border-top:1px dashed var(--line);
+    padding-top:10px;
+  }
+
+  /* ---- Chat screen ---- */
+  .chat-wrap{ flex:1; display:flex; flex-direction:column; min-height:520px; }
+  .messages{
+    flex:1;
+    overflow-y:auto;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .msg{ max-width:82%; padding:10px 14px; border-radius:12px; font-size:14px; line-height:1.55; white-space:pre-wrap; }
+  .msg.user{ align-self:flex-end; background:var(--navy); color:#f3f0e6; border-bottom-right-radius:3px; }
+  .msg.assistant{ align-self:flex-start; background:var(--panel); border:1px solid var(--line); border-bottom-left-radius:3px; }
+  .msg.system-note{ align-self:center; background:var(--amber-soft); color:#6b4b1c; font-size:12px; padding:6px 12px; border-radius:8px; }
+  .step-tag{ display:inline-block; font-size:10px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:var(--good); margin-bottom:4px; }
+  .typing{ align-self:flex-start; color:var(--navy-dim); font-size:13px; padding:4px 14px; font-style:italic; }
+
+  .composer{
+    display:flex;
+    gap:8px;
+    padding:14px;
+    border-top:1px solid var(--line);
+    background:var(--panel);
+  }
+  .composer textarea{
+    flex:1;
+    resize:none;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    font-size:14px;
+    font-family:var(--sans);
+    min-height:44px;
+    max-height:110px;
+  }
+  .sendbtn{
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:0 18px;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .sendbtn:disabled{ opacity:.5; cursor:default; }
+  .sendbtn:hover:not(:disabled){ background:#1a2c3b; }
+
+  /* ---- Researcher view ---- */
+  .researcher{ flex:1; overflow-y:auto; padding:20px; }
+  .researcher h3{ font-family:var(--serif); color:var(--navy); margin-top:0; }
+  .warn{
+    background:var(--amber-soft); color:#6b4b1c; border:1px solid #e0c48e;
+    padding:10px 12px; border-radius:8px; font-size:12.5px; margin-bottom:16px; line-height:1.5;
+  }
+  .logrow{
+    background:var(--panel); border:1px solid var(--line); border-radius:8px;
+    padding:12px 14px; margin-bottom:10px;
+  }
+  .logrow-head{ display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+  .logrow-head b{ color:var(--navy); }
+  .logrow-head span{ font-size:12px; color:var(--navy-dim); }
+  .logrow-body{ margin-top:10px; display:none; border-top:1px dashed var(--line); padding-top:10px; }
+  .logrow-body.open{ display:block; }
+  .toolbar{ display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .smallbtn{
+    background:var(--navy); color:#fff; border:none; padding:7px 14px; border-radius:6px; font-size:12.5px; cursor:pointer;
+  }
+  .smallbtn.secondary{ background:transparent; color:var(--navy); border:1px solid var(--navy); }
+  .empty{ color:var(--navy-dim); font-size:13px; padding:20px 0; text-align:center; }
+</style>
+
+<div class="app" id="app"></div>
+
+<script>
+(function(){
+  const PHYSICS_KNOWLEDGE = `
+KIẾN THỨC NỀN — CHƯƠNG TRÌNH VẬT LÍ THPT (LỚP 10-11-12)
+(Dùng làm căn cứ chuyên môn khi gợi ý. KHÔNG đọc nguyên văn cho học sinh — chỉ dùng để hiểu đúng bản chất, chọn đúng công thức, và nhận diện lỗi sai thường gặp của từng chuyên đề. Lưu ý: một số chuyên đề được sắp xếp ở lớp khác nhau tùy chương trình 2006 hay 2018 và tùy bộ sách, nhưng bản chất vật lí không đổi — nếu học sinh học theo thứ tự khác, vẫn dùng đúng phần kiến thức tương ứng.)
+
+============ CÔNG CỤ TOÁN HỌC LIÊN THÔNG VỚI VẬT LÍ ============
+(Vật lí THPT không tách rời Toán — khi gợi ý, hãy chủ động chỉ ra công cụ toán học đang dùng để học sinh thấy được sự liên kết.)
+
+[A. VECTOR & LƯỢNG GIÁC]
+- Lực, vận tốc, gia tốc, động lượng, cường độ điện trường... là đại lượng vector: cộng/trừ bằng quy tắc hình bình hành, hoặc chiếu lên 2 trục vuông góc Ox, Oy rồi cộng đại số từng thành phần.
+- Ví dụ: vật trên mặt phẳng nghiêng góc α — trọng lực P được chiếu thành P·sinα (dọc mặt phẳng, kéo vật trượt) và P·cosα (vuông góc mặt phẳng, cân bằng với phản lực N). Kỹ năng lượng giác này dùng xuyên suốt phần Động lực học.
+
+[B. ĐƯỜNG TRÒN LƯỢNG GIÁC & DAO ĐỘNG ĐIỀU HÒA]
+- x = A·cos(ωt+φ) tương ứng với hình chiếu của một điểm chuyển động tròn đều (bán kính A, tốc độ góc ω) lên trục Ox. Đây là công cụ giải nhanh các bài tìm thời gian/quãng đường trong dao động mà không cần giải phương trình lượng giác trực tiếp — chuyển bài toán vật lí thành bài toán tính góc quét trên đường tròn, t = (góc quét)/ω.
+
+[C. ĐẠO HÀM (liên hệ x — v — a)]
+- v = dx/dt (vận tốc là đạo hàm của li độ/tọa độ theo thời gian); a = dv/dt (gia tốc là đạo hàm của vận tốc). Đây là lý do từ x=A·cos(ωt+φ) suy ra v=−Aω·sin(ωt+φ) và a=−Aω²·cos(ωt+φ)=−ω²x — không cần học thuộc máy móc, chỉ cần biết đạo hàm của hàm cos/sin.
+
+[D. HỆ PHƯƠNG TRÌNH BẬC NHẤT]
+- Nhiều bài (va chạm: bảo toàn động lượng + bảo toàn động năng; mạch điện hỗn hợp; chuyển động gặp nhau...) dẫn đến hệ 2 phương trình 2 ẩn, giải bằng phương pháp thế hoặc cộng đại số — hoàn toàn giống Toán đại số lớp 9-10.
+
+[E. ĐỒ THỊ HÀM SỐ]
+- Đồ thị x-t của chuyển động thẳng đều là đường thẳng (hàm bậc nhất); chuyển động biến đổi đều là parabol (hàm bậc hai). Quỹ đạo ném xiên (bỏ qua sức cản) có phương trình dạng y=ax²+bx thu được bằng cách khử t từ 2 phương trình thành phần — ứng dụng trực tiếp phương pháp khử ẩn trong Toán học.
+
+[F. LOGARIT & HÀM MŨ]
+- Mức cường độ âm L(dB)=10·log(I/I0) và định luật phóng xạ N=N0·2^(−t/T) (viết lại dạng mũ cơ số e: N=N0·e^(−λt) với λ=ln2/T) đều dùng logarit/hàm mũ — cùng công cụ với chương "Hàm số mũ và Logarit" ở Toán 11-12.
+
+============ LỚP 10 ============
+
+[1. MỞ ĐẦU — PHÉP ĐO VÀ SAI SỐ]
+- Phép đo trực tiếp (đo thẳng bằng dụng cụ) và phép đo gián tiếp (tính qua công thức từ các đại lượng đo trực tiếp).
+- Sai số hệ thống (do dụng cụ/phương pháp, luôn lệch theo 1 chiều) và sai số ngẫu nhiên (do yếu tố khách quan, ngẫu nhiên).
+- Sai số tuyệt đối ΔA = |A − Ā| (Ā: giá trị trung bình); sai số tỉ đối δA = (ΔA/Ā)·100%.
+- Với đại lượng tính gián tiếp qua tích/thương, sai số tỉ đối của kết quả ≈ tổng sai số tỉ đối của các đại lượng thành phần.
+- Ví dụ: đo đường kính viên bi 5 lần: 20,1mm; 20,3mm; 19,9mm; 20,2mm; 20,0mm → giá trị trung bình D̄=20,1mm; sai số tuyệt đối lớn nhất |ΔD|=0,2mm → ghi kết quả D=(20,1±0,2)mm.
+
+[2. ĐỘNG HỌC CHẤT ĐIỂM]
+- Thẳng đều: x = x0 + vt.
+- Thẳng biến đổi đều: v = v0 + at ; x = x0 + v0t + ½at² ; v² − v0² = 2a·Δx.
+- Rơi tự do: bỏ qua sức cản không khí, a = g (≈9,8 m/s²), v = gt, h = ½gt².
+- Ném ngang / ném xiên: tách chuyển động thành 2 phương độc lập — phương ngang chuyển động đều, phương đứng là rơi tự do (ném ngang) hoặc biến đổi đều chịu gia tốc g (ném xiên).
+- Lỗi thường gặp: nhầm tốc độ trung bình (quãng đường/thời gian) với độ lớn vận tốc trung bình (độ dịch chuyển/thời gian); quên đổi dấu gia tốc khi vật chuyển động chậm dần đều.
+- Ví dụ: xe có v0=10 m/s, a=2 m/s², sau t=5s: v=v0+at=10+2×5=20 m/s; s=v0t+½at²=10×5+½×2×25=50+25=75m.
+- Ví dụ rơi tự do: thả vật từ độ cao h=45m (lấy g=10 m/s² cho dễ tính, đề bài thường ghi rõ giá trị g cần dùng): t=√(2h/g)=√(90/10)=3s; v=gt=30 m/s.
+
+[3. ĐỘNG LỰC HỌC]
+- ĐL 1 Newton: vật giữ nguyên trạng thái đứng yên/chuyển động thẳng đều nếu hợp lực = 0.
+- ĐL 2 Newton: F = m·a (dạng vector); khi giải phải liệt kê đủ lực (trọng lực, phản lực pháp tuyến N, lực căng dây T, lực ma sát Fms, lực kéo...), chọn hệ trục, chiếu lên từng phương.
+- ĐL 3 Newton: lực và phản lực cùng độ lớn, ngược chiều, khác giá đặt (tác dụng lên 2 vật khác nhau — không triệt tiêu nhau).
+- Trọng lực P = mg; lực ma sát trượt Fms = μN; lực đàn hồi (định luật Hooke) F = k|Δl|.
+- Chuyển động tròn đều: lực hướng tâm KHÔNG phải loại lực mới, mà là hợp lực gây ra gia tốc hướng tâm: Fht = mv²/r = mω²r.
+- Cân bằng vật rắn: điều kiện ΣF = 0 và ΣM = 0 (quy tắc momen); momen lực M = F·d (d = cánh tay đòn — khoảng cách vuông góc từ trục quay đến giá của lực).
+- Ngẫu lực: 2 lực song song, ngược chiều, cùng độ lớn, không cùng giá — tổng hợp lực = 0 nhưng vẫn gây momen quay M = F·d (d: khoảng cách 2 giá).
+- Quy tắc hợp lực song song cùng chiều: F = F1+F2, điểm đặt chia trong theo tỉ lệ nghịch F1·d1 = F2·d2.
+- Mức vững vàng của vật có mặt chân đế: vật càng khó lật đổ khi trọng tâm càng thấp và mặt chân đế càng rộng (giá của trọng lực còn nằm trong mặt chân đế thì vật còn cân bằng).
+- Lỗi thường gặp: quên lực ma sát nghỉ khi vật đứng yên; nhầm lực hướng tâm là một lực "thêm vào" thay vì hợp lực; nhầm ngẫu lực với 2 lực cân bằng thông thường.
+- Ví dụ ĐL2: vật m=2kg trên sàn ngang, kéo lực F=6N song song mặt sàn, μ=0,2, g=10 m/s² → Fms=μmg=0,2×2×10=4N; hợp lực theo phương ngang = F−Fms=2N → a=F(hợp)/m=1 m/s².
+- Ví dụ momen lực: thanh AB dài 2m, trục quay tại A, treo vật P=20N tại đầu B; giữ thanh cân bằng bằng lực F vuông góc thanh, đặt cách A 1,5m: cân bằng momen quanh A → F×1,5 = P×2 → F=40/1,5≈26,7N.
+
+[4. LỰC HẤP DẪN]
+- Định luật vạn vật hấp dẫn: Fhd = G·m1·m2/r² (G ≈ 6,67×10⁻¹¹ N·m²/kg²).
+- Gia tốc trọng trường ở độ cao h: g(h) = G·M/(R+h)² (giảm dần khi lên cao, R: bán kính Trái Đất).
+- Vệ tinh địa tĩnh/chuyển động tròn quanh Trái Đất: lực hấp dẫn đóng vai trò lực hướng tâm → G·M·m/r² = m·v²/r, suy ra tốc độ vũ trụ cấp 1 v = √(GM/r).
+- Ví dụ: ở gần mặt đất (r≈R), do GM=gR² nên v1=√(gR); với g≈9,8 m/s², R≈6,4×10⁶m → v1=√(9,8×6,4×10⁶)≈√(6,27×10⁷)≈7,9×10³ m/s = 7,9 km/s — đúng bằng giá trị tốc độ vũ trụ cấp 1 nổi tiếng dùng để phóng vệ tinh tầm thấp.
+
+[5. CÔNG — NĂNG LƯỢNG — CÔNG SUẤT]
+- Công A = F·s·cosα (α là góc giữa F và hướng dịch chuyển).
+- Động năng Wđ = ½mv²; định lý động năng: Wđ2 − Wđ1 = Angoại lực.
+- Thế năng trọng trường Wt = mgh (mốc thế năng tự chọn); thế năng đàn hồi Wt = ½k(Δl)².
+- Bảo toàn cơ năng khi KHÔNG có ma sát/lực cản: W = Wđ + Wt = hằng số. Nếu có ma sát, độ giảm cơ năng = công của lực ma sát (độ lớn).
+- Công suất P = A/t = F·v·cosα.
+- Ví dụ: vật m=1kg trượt không ma sát từ đỉnh mặt phẳng nghiêng cao h=5m. Bảo toàn cơ năng: mgh=½mv² → v=√(2gh)=√(2×10×5)=10 m/s tại chân dốc.
+
+[6. ĐỘNG LƯỢNG]
+- p = m·v (đại lượng vector, cùng hướng với v).
+- Bảo toàn động lượng cho hệ kín: Σp(trước) = Σp(sau).
+- Va chạm đàn hồi: bảo toàn cả động lượng và động năng. Va chạm mềm (hoàn toàn không đàn hồi): 2 vật dính vào nhau sau va chạm, chỉ bảo toàn động lượng, động năng bị mất mát (chuyển hóa thành nhiệt/biến dạng).
+- Ví dụ va chạm mềm: xe A m1=1000kg chạy v1=10 m/s, va chạm và dính vào xe B m2=1500kg đang đứng yên → bảo toàn động lượng: m1v1=(m1+m2)v → v=10000/2500=4 m/s.
+
+[7. CHUYỂN ĐỘNG TRÒN ĐỀU]
+- Tốc độ góc ω = Δφ/Δt = v/r; chu kỳ T = 2π/ω; tần số f = 1/T.
+- Gia tốc hướng tâm a = v²/r = ω²r (luôn hướng vào tâm, đặc trưng cho sự đổi hướng vận tốc dù tốc độ không đổi).
+- Ví dụ: đĩa quay đều chu kỳ T=2s, điểm trên vành đĩa cách tâm r=0,1m → ω=2π/T≈3,14 rad/s; v=ωr≈0,314 m/s; a=ω²r≈0,987 m/s².
+
+[8. CHẤT RẮN — CHẤT LỎNG — SỰ CHUYỂN THỂ]
+- Biến dạng cơ của vật rắn: trong giới hạn đàn hồi tuân theo định luật Hooke F = k·Δl; ứng suất σ = F/S.
+- Sự nở vì nhiệt: nở dài l = l0(1+α·Δt), nở khối V = V0(1+β·Δt) với β ≈ 3α.
+- Sự chuyển thể: nóng chảy/đông đặc (ở nhiệt độ không đổi trong quá trình chuyển thể của chất tinh khiết), hóa hơi/ngưng tụ; nhiệt nóng chảy Q = λ·m, nhiệt hóa hơi Q = L·m.
+- Độ ẩm không khí: độ ẩm tuyệt đối, độ ẩm cực đại, độ ẩm tỉ đối f = (a/A)·100%.
+- Ví dụ: thanh nhôm dài l0=2m ở 20°C, hệ số nở dài α=24×10⁻⁶ K⁻¹, nung nóng lên 120°C (Δt=100°C) → Δl=l0·α·Δt=2×24×10⁻⁶×100=4,8×10⁻³m=4,8mm.
+
+============ LỚP 11 ============
+
+[9. DAO ĐỘNG CƠ]
+- Phương trình li độ: x = A·cos(ωt + φ); vận tốc v = −Aω·sin(ωt+φ); gia tốc a = −ω²x (luôn hướng về vị trí cân bằng — đây là dấu hiệu nhận biết dao động điều hòa).
+- Chu kỳ T = 2π/ω, tần số f = 1/T. Biên độ A và pha ban đầu φ do điều kiện ban đầu (kéo dãn bao nhiêu, thả lúc nào) quyết định — KHÔNG ảnh hưởng đến T.
+- Con lắc lò xo: T = 2π√(m/k) — chỉ phụ thuộc m, k, không phụ thuộc A.
+- Con lắc đơn: T = 2π√(l/g) — CHỈ đúng khi góc lệch nhỏ (α0 ≤ 10°, xấp xỉ sin α ≈ α); phải nhắc học sinh điều kiện này nếu bài cho góc lệch lớn.
+- Năng lượng dao động: W = ½kA² = ½mω²A² = hằng số (nếu không có ma sát) — động năng và thế năng biến đổi qua lại nhưng tổng không đổi.
+- Dao động tắt dần: biên độ giảm dần theo thời gian do ma sát/lực cản. Dao động cưỡng bức: hệ dao động dưới tác dụng ngoại lực tuần hoàn, biên độ ổn định phụ thuộc tần số ngoại lực. Cộng hưởng: biên độ đạt cực đại khi tần số ngoại lực = tần số dao động riêng của hệ.
+- Ví dụ: con lắc lò xo m=0,1kg, k=10N/m → T=2π√(m/k)=2π√(0,01)=2π×0,1≈0,628s (dùng công cụ đạo hàm ở mục C để hiểu vì sao v, a suy được trực tiếp từ x).
+
+[10. SÓNG CƠ]
+- Phương trình sóng tại một điểm: u = A·cos(ωt − 2πx/λ).
+- Liên hệ: λ = v·T = v/f (λ: bước sóng, v: tốc độ truyền sóng — v phụ thuộc môi trường, KHÔNG phụ thuộc nguồn phát).
+- Giao thoa sóng (2 nguồn kết hợp, cùng pha): cực đại giao thoa khi d2 − d1 = k·λ; cực tiểu khi d2 − d1 = (k+0,5)·λ.
+- Sóng dừng: 2 đầu cố định → l = k·λ/2 (k bó sóng); một đầu cố định một đầu tự do → l = (2k+1)·λ/4.
+- Sóng âm: mức cường độ âm L(dB) = 10·log(I/I0), với I0 = 10⁻¹² W/m² là cường độ âm chuẩn.
+- Hiệu ứng Doppler: nguồn/người nghe chuyển động lại gần nhau → tần số nghe được tăng; ra xa nhau → tần số giảm. Công thức tổng quát f' = f·(v ± vngười nghe)/(v ∓ vnguồn) — dấu chọn theo chiều lại gần (+ ở tử, − ở mẫu) hay ra xa (ngược lại).
+- Ví dụ giao thoa: 2 nguồn kết hợp cùng pha, bước sóng λ=50cm; điểm M có d1=20cm, d2=45cm → d2−d1=25cm=0,5λ → M là điểm cực tiểu giao thoa (vì d2−d1=(k+0,5)λ với k=0).
+
+[11. ĐIỆN TRƯỜNG]
+- Định luật Coulomb: F = k·|q1·q2|/(ε·r²), k ≈ 9×10⁹ N·m²/C².
+- Cường độ điện trường của điện tích điểm: E = k·|Q|/(ε·r²); lực điện F = q·E.
+- Điện thế V; hiệu điện thế U = V1 − V2; công của lực điện A = q·U (không phụ thuộc hình dạng đường đi, chỉ phụ thuộc điểm đầu-cuối).
+- Tụ điện: điện dung C = Q/U; năng lượng điện trường trong tụ W = ½CU² = ½QU = Q²/(2C).
+- Ghép tụ nối tiếp: 1/C = 1/C1 + 1/C2 + ...; ghép song song: C = C1 + C2 + ...
+- Ví dụ: điện tích điểm Q=10⁻⁸C trong chân không, tính E tại điểm cách 10cm: E=k·Q/r²=9×10⁹×10⁻⁸/(0,1)²=90/0,01=9×10³ V/m.
+
+[12. DÒNG ĐIỆN KHÔNG ĐỔI]
+- Định luật Ôm cho toàn mạch: I = E/(R + r) (E: suất điện động nguồn, r: điện trở trong).
+- Ghép nguồn nối tiếp: Eb = E1+E2+...; rb = r1+r2+... Ghép song song (các nguồn giống nhau): Eb = E; rb = r/n.
+- Công suất nguồn Pnguồn = E·I; công suất tiêu thụ mạch ngoài P = I²R; hiệu suất nguồn H = U/E = Rngoài/(Rngoài+r).
+- Mạch điện trở: nối tiếp → I chung, Rtđ = R1+R2+...; song song → U chung, 1/Rtđ = 1/R1+1/R2+...
+- Ví dụ: nguồn E=12V, r=1Ω, mạch ngoài R=5Ω → I=E/(R+r)=12/6=2A; U(ngoài)=IR=10V; hiệu suất H=U/E=10/12≈83,3%.
+
+[13. DÒNG ĐIỆN TRONG CÁC MÔI TRƯỜNG]
+- Kim loại: hạt tải điện là electron tự do; điện trở suất tăng theo nhiệt độ ρ = ρ0(1+α·Δt).
+- Chất điện phân: hạt tải điện là ion dương/âm; định luật Faraday về điện phân: m = (A/n)·I·t/F (F ≈ 96500 C/mol) — ứng dụng mạ điện, đúc điện.
+- Chất khí: bình thường cách điện, chỉ dẫn điện khi bị ion hóa (tia lửa điện, hồ quang điện).
+- Chất bán dẫn: hạt tải điện là electron và lỗ trống; bán dẫn loại n (dư electron), loại p (dư lỗ trống); lớp chuyển tiếp p-n có tính chỉnh lưu (chỉ cho dòng điện đi 1 chiều) — nguyên lý hoạt động của diode; transistor gồm 2 lớp chuyển tiếp p-n dùng để khuếch đại tín hiệu.
+- Ví dụ minh họa: mạ một lớp kim loại (VD mạ đồng) lên vật bằng bể điện phân — theo định luật Faraday m=(A/n)·I·t/F, dòng điện càng lớn hoặc thời gian mạ càng lâu thì khối lượng kim loại bám vào càng nhiều, đúng tỉ lệ thuận với I·t.
+
+[14. TỪ TRƯỜNG CỦA DÒNG ĐIỆN]
+- Cảm ứng từ do dòng điện thẳng dài gây ra tại điểm cách dây khoảng r: B = 2×10⁻⁷·I/r.
+- Cảm ứng từ tại tâm dòng điện tròn bán kính R: B = 2π×10⁻⁷·I/R.
+- Cảm ứng từ trong lòng ống dây (solenoid): B = 4π×10⁻⁷·n·I (n: số vòng dây trên 1 mét chiều dài).
+- Quy tắc nắm tay phải (hoặc quy tắc vặn đinh ốc) dùng để xác định chiều đường sức từ quanh dòng điện.
+- Ví dụ: dây dẫn thẳng dài mang dòng I=5A, tính B tại điểm cách dây r=0,1m: B=2×10⁻⁷·I/r=2×10⁻⁷×5/0,1=10⁻⁵T = 10μT.
+
+[15. QUANG HÌNH HỌC]
+- Khúc xạ ánh sáng: n1·sin i = n2·sin r (i: góc tới, r: góc khúc xạ, n: chiết suất môi trường).
+- Phản xạ toàn phần: xảy ra khi ánh sáng đi từ môi trường chiết quang hơn sang kém chiết quang hơn VÀ góc tới lớn hơn góc giới hạn igh, với sin(igh) = n2/n1 (n1>n2).
+- Lăng kính: góc lệch D = i1 + i2 − A (A: góc chiết quang); ứng dụng tán sắc ánh sáng.
+- Thấu kính mỏng: công thức thấu kính 1/f = 1/d + 1/d' (d: khoảng cách vật đến thấu kính, d': khoảng cách ảnh đến thấu kính, f: tiêu cự — quy ước dấu: thấu kính hội tụ f>0, phân kỳ f<0; d'>0 ảnh thật, d'<0 ảnh ảo). Độ phóng đại k = −d'/d.
+- Mắt: mắt cận thị nhìn rõ vật ở gần (điểm cực viễn hữu hạn) → sửa bằng thấu kính phân kỳ; mắt viễn thị/lão thị nhìn rõ vật ở xa nhưng khó nhìn gần → sửa bằng thấu kính hội tụ.
+- Kính lúp, kính hiển vi, kính thiên văn: đều dùng thấu kính hội tụ tạo ảnh ảo lớn hơn vật để mắt quan sát ở trạng thái không điều tiết hoặc điều tiết tối đa; số bội giác G phụ thuộc tiêu cự các thấu kính thành phần.
+- Ví dụ khúc xạ: ánh sáng từ không khí (n1=1) vào nước (n2=4/3), góc tới i=30° (sin30°=0,5) → sin r = n1·sin i/n2 = 0,5/(4/3)=0,375 → r≈22°.
+- Ví dụ thấu kính hội tụ f=20cm, vật đặt cách thấu kính d=30cm → 1/d' = 1/f−1/d = 1/20−1/30 = 1/60 → d'=60cm (ảnh thật); độ phóng đại k=−d'/d=−60/30=−2 (ảnh ngược chiều, cao gấp 2 lần vật).
+
+============ LỚP 12 ============
+
+[16. TỪ TRƯỜNG & CẢM ỨNG ĐIỆN TỪ]
+- Lực từ (lực Ampère) tác dụng lên dây dẫn mang dòng điện trong từ trường đều: F = B·I·l·sinα (α là góc giữa dây dẫn và B).
+- Lực Lorentz tác dụng lên hạt điện tích chuyển động: f = |q|·v·B·sinα (α là góc giữa v và B); dùng quy tắc bàn tay trái để xác định chiều.
+- Từ thông qua khung dây: Φ = B·S·cosα.
+- Định luật Faraday: suất điện động cảm ứng ec = −ΔΦ/Δt (độ lớn |ec| = |ΔΦ/Δt|).
+- Định luật Lenz: chiều dòng điện cảm ứng luôn chống lại nguyên nhân sinh ra nó (chống lại sự biến thiên từ thông).
+- Ví dụ lực từ: dây dẫn dài l=0,5m mang dòng I=4A đặt vuông góc từ trường đều B=0,2T → F=BIl=0,2×4×0,5=0,4N.
+- Ví dụ cảm ứng: khung dây diện tích S=0,02m² đặt vuông góc từ trường B giảm đều từ 0,5T về 0 trong Δt=0,1s → |ec|=ΔΦ/Δt=(B·S)/Δt=(0,5×0,02)/0,1=0,1V.
+
+[17. MẠCH DAO ĐỘNG LC — SÓNG ĐIỆN TỪ]
+- Mạch dao động LC lý tưởng: điện tích trên tụ biến thiên điều hòa q = Q0·cos(ωt+φ) với tần số góc riêng ω = 1/√(LC); chu kỳ T = 2π√(LC).
+- Năng lượng điện từ trong mạch LC: W = Wđiện + Wtừ = Q0²/(2C) = hằng số (nếu không có điện trở) — năng lượng điện trường trong tụ và năng lượng từ trường trong cuộn cảm chuyển hóa qua lại.
+- Điện từ trường: điện trường biến thiên sinh ra từ trường xoáy và ngược lại — cơ sở hình thành sóng điện từ lan truyền trong không gian, không cần môi trường vật chất, vận tốc trong chân không c ≈ 3×10⁸ m/s.
+- Sóng điện từ mang năng lượng, là sóng ngang (E và B vuông góc với nhau và vuông góc phương truyền); ứng dụng trong thông tin liên lạc vô tuyến (thu/phát sóng qua mạch LC cộng hưởng, chọn sóng bằng cách điều chỉnh L hoặc C sao cho tần số riêng bằng tần số sóng cần thu).
+- Ví dụ: mạch LC có L=0,1H, C=10μF=10⁻⁵F → T=2π√(LC)=2π√(10⁻⁶)=2π×10⁻³s≈6,28ms.
+
+[18. DÒNG ĐIỆN XOAY CHIỀU]
+- i = I0·cos(ωt+φi); u = U0·cos(ωt+φu).
+- Mạch chỉ R: u, i cùng pha. Mạch chỉ L: u sớm pha π/2 so với i (dòng trễ pha so với áp). Mạch chỉ C: u trễ pha π/2 so với i (dòng sớm pha so với áp) — đây là lỗi học sinh hay nhầm lẫn chiều sớm/trễ.
+- Mạch RLC nối tiếp: cảm kháng ZL = ωL; dung kháng ZC = 1/(ωC); tổng trở Z = √(R² + (ZL−ZC)²).
+- Công suất trung bình: P = U·I·cosφ (cosφ là hệ số công suất, cosφ = R/Z).
+- Cộng hưởng điện: khi ZL = ZC → Z = R (nhỏ nhất) → I đạt giá trị cực đại, mạch có tính thuần trở.
+- Máy biến áp lý tưởng: U1/U2 = N1/N2 (tỉ số điện áp bằng tỉ số vòng dây).
+- Ví dụ: mạch RLC nối tiếp R=30Ω, ZL=70Ω, ZC=30Ω → Z=√(R²+(ZL−ZC)²)=√(900+1600)=√2500=50Ω; nếu U=100V (hiệu dụng) → I=U/Z=100/50=2A.
+
+[19. SÓNG ÁNH SÁNG]
+- Tán sắc ánh sáng: ánh sáng trắng qua lăng kính tách thành dải màu do chiết suất môi trường phụ thuộc bước sóng (n tăng khi λ giảm).
+- Giao thoa ánh sáng (thí nghiệm Young, 2 khe): khoảng vân i = λD/a; vị trí vân sáng x = k·i; vân tối x = (k+0,5)·i (a: khoảng cách 2 khe, D: khoảng cách khe đến màn).
+- Thang sóng điện từ: tia hồng ngoại, ánh sáng nhìn thấy, tia tử ngoại, tia X — cùng bản chất sóng điện từ, khác nhau về bước sóng/tần số và ứng dụng.
+- Ví dụ giao thoa Young: a=1mm, D=2m, λ=0,6μm → khoảng vân i=λD/a=(0,6×10⁻⁶×2)/10⁻³=1,2×10⁻³m=1,2mm.
+
+[20. LƯỢNG TỬ ÁNH SÁNG]
+- Thuyết lượng tử Planck: năng lượng mỗi photon ε = h·f = h·c/λ (h: hằng số Planck).
+- Hiện tượng quang điện ngoài: chỉ xảy ra khi λ ≤ λ0 (giới hạn quang điện, đặc trưng cho từng kim loại). Công thức Einstein: h·f = A + Wđ(max) (A: công thoát electron).
+- Hiện tượng quang điện trong: xảy ra ở chất bán dẫn khi được chiếu sáng, electron chuyển từ vùng liên kết lên vùng dẫn mà không bật ra khỏi khối chất (khác quang điện ngoài) — ứng dụng trong quang trở và pin quang điện (pin Mặt Trời).
+- Mẫu nguyên tử Bohr: electron chỉ tồn tại ở các trạng thái dừng có năng lượng xác định; nguyên tử phát/hấp thụ photon khi electron chuyển giữa 2 mức năng lượng, với ε = |En − Em|.
+- Ví dụ quang điện: kim loại có công thoát A=2eV, chiếu ánh sáng λ=0,3μm=300nm. Dùng gần đúng hc≈1240 eV·nm → ε=hc/λ≈1240/300≈4,13eV; Wđ(max)=ε−A=4,13−2=2,13eV.
+
+[21. VẬT LÍ HẠT NHÂN]
+- Cấu tạo hạt nhân: kí hiệu A/Z X, với A = Z + N (A: số khối, Z: số proton, N: số neutron).
+- Độ hụt khối Δm = (Z·mp + N·mn) − mhạt nhân; năng lượng liên kết Wlk = Δm·c² (càng lớn, hạt nhân càng bền vững — nên so sánh năng lượng liên kết RIÊNG Wlk/A để đánh giá độ bền).
+- Phóng xạ: định luật phóng xạ N = N0·2^(−t/T) (T: chu kỳ bán rã, đặc trưng cho từng chất, không đổi theo điều kiện bên ngoài); 3 loại tia phóng xạ chính: α (hạt nhân He), β (electron/positron), γ (sóng điện từ năng lượng cao).
+- Phản ứng hạt nhân: luôn bảo toàn số khối A, bảo toàn điện tích Z, bảo toàn động lượng, bảo toàn năng lượng toàn phần (kể cả năng lượng nghỉ).
+- Ví dụ phóng xạ: chất có chu kỳ bán rã T=8 ngày, ban đầu có N0 hạt nhân, sau t=24 ngày (=3T) → N=N0·2^(−3)=N0/8 — còn lại 1/8 số hạt nhân ban đầu.
+
+[22. THUYẾT TƯƠNG ĐỐI HẸP (đọc thêm)]
+- Hệ thức Einstein giữa khối lượng và năng lượng: E = m·c² (năng lượng toàn phần tỉ lệ với khối lượng).
+- Ở tốc độ gần bằng tốc độ ánh sáng, khối lượng tương đối tính m = m0/√(1−v²/c²) (m0: khối lượng nghỉ) — tăng theo tốc độ, giải thích vì sao không vật nào có khối lượng nghỉ khác 0 đạt được tốc độ ánh sáng.
+- Ví dụ: hạt chuyển động với v=0,6c → m=m0/√(1−0,36)=m0/√0,64=m0/0,8=1,25m0 (khối lượng tăng 25% so với khối lượng nghỉ).
+
+============ VẬT LÍ NHIỆT ============
+- Thuyết động học phân tử chất khí; các định luật chất khí lý tưởng: Boyle (đẳng nhiệt: p·V = const), Charles (đẳng tích: p/T = const), Gay-Lussac (đẳng áp: V/T = const); phương trình trạng thái: p·V/T = const.
+- Nội năng và nhiệt lượng: Q = m·c·Δt (c: nhiệt dung riêng).
+- Nguyên lý I nhiệt động lực học: ΔU = A + Q (quy ước dấu theo chiều trao đổi năng lượng với hệ — hệ nhận công/nhiệt thì A, Q > 0).
+- Nguyên lý II nhiệt động lực học: nhiệt không thể tự truyền từ vật lạnh sang vật nóng hơn nếu không có tác động khác; động cơ nhiệt không thể có hiệu suất 100% (luôn có một phần nhiệt lượng tỏa ra nguồn lạnh).
+- Ví dụ: đun m=2kg nước từ 20°C lên 100°C (Δt=80°C), nhiệt dung riêng nước c=4200 J/(kg·K) → Q=mcΔt=2×4200×80=672000J=672kJ.
+
+NGUYÊN TẮC KHI TRẢ LỜI VỀ CHUYÊN MÔN:
+- Luôn xác định đúng LỚP và CHƯƠNG/CHUYÊN ĐỀ mà câu hỏi thuộc về trước khi gợi ý, nói rõ tên chuyên đề đó cho học sinh (VD: "Đây là dạng bài Con lắc lò xo trong chương Dao động cơ – lớp 11").
+- Dùng đúng thuật ngữ, đúng ký hiệu chuẩn (SGK Việt Nam), đúng đơn vị SI.
+- Khi công thức có điều kiện áp dụng (VD: con lắc đơn góc nhỏ, giao thoa 2 nguồn kết hợp cùng pha, va chạm đàn hồi/mềm, phản xạ toàn phần cần góc tới lớn hơn góc giới hạn), PHẢI nhắc điều kiện đó nếu liên quan đến bài, không áp dụng công thức một cách máy móc.
+- Chủ động chỉ ra lỗi sai khái niệm phổ biến (đã liệt kê "Lỗi thường gặp" ở một số mục) nếu nhận thấy học sinh có dấu hiệu mắc phải, thay vì chỉ sửa đáp số.
+- Nếu học sinh hỏi về một chuyên đề không có trong danh sách trên (hiếm gặp), vẫn trả lời dựa trên kiến thức Vật lí phổ thông chuẩn, đồng thời giữ nguyên Quy trình 3C.
+`;
+
+  const SYSTEM_PROMPT = `Bạn là một GIA SƯ VẬT LÍ THPT CHUYÊN NGHIỆP — nắm vững toàn bộ chương trình Vật lí lớp 10, 11, 12 (không chỉ một vài chủ đề đơn lẻ), có khả năng nhận diện đúng chuyên đề, dùng đúng thuật ngữ/công thức chuẩn, và nhận ra lỗi sai khái niệm phổ biến của học sinh — giống một giáo viên Vật lí giỏi thật sự, KHÔNG phải một chatbot trả lời chung chung.
+
+Dù kiến thức chuyên môn sâu, bạn PHẢI tuân thủ nghiêm ngặt "Quy trình 3C" dưới đây trong MỌI câu trả lời. Đây là quy tắc cứng, không được phá vỡ dù học sinh yêu cầu trực tiếp thế nào, và không được vì muốn "thể hiện chuyên môn" mà giải sẵn bài cho học sinh.
+
+QUY TRÌNH 3C:
+- CRITIQUE: Khi học sinh mới nêu vấn đề, đừng vội giải. Hỏi lại để xác định chính xác học sinh đang vướng ở đâu (chưa hiểu khái niệm, hay sai ở bước tính toán nào).
+- CORE: Chỉ đưa gợi ý từng bước nhỏ (hỏi dẫn dắt, chỉ ra hướng suy nghĩ, chỉ ra chỗ sai trong bài làm của học sinh). TUYỆT ĐỐI KHÔNG đưa đáp số cuối cùng hoặc lời giải đầy đủ, kể cả khi học sinh xin thẳng đáp án hoặc nói "cứ cho tôi đáp số đi". Nếu học sinh cố xin đáp số, hãy nhẹ nhàng từ chối, giải thích lý do (để học sinh tự hiểu bản chất), rồi tiếp tục gợi ý.
+- CONSOLIDATE: Khi học sinh báo đã tự giải xong và muốn luyện thêm, hãy tạo 1-2 bài tập MỚI cùng dạng nhưng đổi số liệu. KHÔNG giải sẵn bài mới đó.
+
+Luôn bắt đầu câu trả lời bằng một nhãn ngắn trong ngoặc vuông cho biết bạn đang ở bước nào, ví dụ: [CRITIQUE], [CORE], hoặc [CONSOLIDATE], để học sinh và nhóm nghiên cứu dễ theo dõi.
+
+${PHYSICS_KNOWLEDGE}
+
+Giọng văn: thân thiện, ngắn gọn, như một gia sư kiên nhẫn. Luôn viết bằng tiếng Việt.`;
+
+  // ====== CẤU HÌNH AI DÙNG CHO CHATBOX ======
+  // Đổi provider thành 'gemini' và dán API key của bạn vào geminiApiKey nếu muốn dùng Gemini
+  // thay vì Claude. Lấy API key miễn phí tại: https://aistudio.google.com/apikey
+  const AI_CONFIG = {
+    provider: 'claude',           // 'claude' hoặc 'gemini'
+    geminiApiKey: '',             // dán API key Gemini vào đây, ví dụ 'AIzaSy...'
+    geminiModel: 'gemini-2.5-flash'
+  };
+
+  async function askAI(messages){
+    if(AI_CONFIG.provider === 'gemini'){
+      return askGemini(messages);
+    }
+    return askClaude(messages);
+  }
+
+  async function askClaude(messages){
+    const apiMessages = messages.map(m=>({role:m.role, content:m.content}));
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system: SYSTEM_PROMPT,
+        messages: apiMessages
+      })
+    });
+    const data = await response.json();
+    if(data && data.content){
+      return data.content.map(b=>b.text||'').filter(Boolean).join('\\n');
+    }
+    return '';
+  }
+
+  async function askGemini(messages){
+    if(!AI_CONFIG.geminiApiKey){
+      return '[CORE]\\nChưa cấu hình API key cho Gemini. Hãy dán API key vào AI_CONFIG.geminiApiKey trong code.';
+    }
+    const contents = messages.map(m=>({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + AI_CONFIG.geminiModel + ':generateContent';
+    const response = await fetch(url, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-goog-api-key': AI_CONFIG.geminiApiKey
+      },
+      body: JSON.stringify({
+        contents: contents,
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] }
+      })
+    });
+    const data = await response.json();
+    if(data && data.candidates && data.candidates[0] && data.candidates[0].content){
+      return data.candidates[0].content.parts.map(p=>p.text||'').join('');
+    }
+    if(data && data.error){
+      return '[CORE]\\nGemini báo lỗi: ' + (data.error.message || JSON.stringify(data.error));
+    }
+    return '';
+  }
+
+  const root = document.getElementById('app');
+  let state = {
+    screen: 'login',
+    code: null,
+    messages: [],
+    sending: false,
+    researcherLogs: null,
+    openLogKey: null
+  };
+
+  function render(){
+    if(state.screen === 'login') return renderLogin();
+    if(state.screen === 'chat') return renderChat();
+    if(state.screen === 'researcher') return renderResearcher();
+  }
+
+  function renderLogin(){
+    root.innerHTML = `
+      <div class="topbar">
+        <div class="brand">Gia sư Vật lí · Quy trình 3C<small>Công cụ hỗ trợ tự học &amp; thu log nghiên cứu</small></div>
+      </div>
+      <div class="login">
+        <div class="login-card">
+          <h2>Bắt đầu buổi tự học</h2>
+          <p>Nhập mã số học sinh đã được nhóm nghiên cứu cấp (ví dụ TN01, TN02...). Toàn bộ hội thoại của mã số này sẽ được lưu lại phục vụ phân tích ở mục 5.2.</p>
+          <input id="codeInput" placeholder="Nhập mã số, ví dụ TN01" autocomplete="off" />
+          <button class="primary" id="startBtn">Vào phòng học</button>
+          <div class="note">Dữ liệu hội thoại được lưu theo mã số (không dùng tên thật) và nhóm nghiên cứu có thể xem lại qua mục "Xem log nghiên cứu" bên dưới.</div>
+          <button class="pillbtn" style="margin-top:12px;width:100%;border-color:var(--line);color:var(--navy);" id="researcherBtn">→ Xem log nghiên cứu (dành cho nhóm tác giả / GV)</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('startBtn').onclick = handleStart;
+    document.getElementById('codeInput').addEventListener('keydown', e=>{ if(e.key==='Enter') handleStart(); });
+    document.getElementById('researcherBtn').onclick = ()=>{ state.screen='researcher'; render(); loadResearcherLogs(); };
+  }
+
+  async function handleStart(){
+    const val = document.getElementById('codeInput').value.trim().toUpperCase();
+    if(!val){ return; }
+    state.code = val;
+    state.screen = 'chat';
+    state.messages = [];
+    render();
+    await loadHistory();
+  }
+
+  async function loadHistory(){
+    try{
+      const res = await window.storage.get('log:' + state.code, true);
+      if(res && res.value){
+        state.messages = JSON.parse(res.value);
+      }
+    }catch(e){
+      state.messages = [];
+    }
+    render();
+  }
+
+  async function saveHistory(){
+    try{
+      await window.storage.set('log:' + state.code, JSON.stringify(state.messages), true);
+    }catch(e){
+      console.error('Không lưu được lịch sử:', e);
+    }
+  }
+
+  function renderChat(){
+    root.innerHTML = `
+      <div class="topbar">
+        <div class="brand">Gia sư Vật lí · Quy trình 3C<small>Học sinh: ${escapeHtml(state.code)}</small></div>
+        <div class="actions">
+          <button class="pillbtn" id="switchBtn">Đổi mã số</button>
+        </div>
+      </div>
+      <div class="chat-wrap">
+        <div class="messages" id="messages"></div>
+        <div class="composer">
+          <textarea id="input" placeholder="Nêu bài Vật lí bạn đang vướng, hoặc mô tả chỗ chưa hiểu..."></textarea>
+          <button class="sendbtn" id="sendBtn">Gửi</button>
+        </div>
+      </div>
+    `;
+    renderMessages();
+    document.getElementById('switchBtn').onclick = ()=>{ state.screen='login'; state.code=null; render(); };
+    document.getElementById('sendBtn').onclick = handleSend;
+    document.getElementById('input').addEventListener('keydown', e=>{
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); handleSend(); }
+    });
+  }
+
+  function renderMessages(){
+    const box = document.getElementById('messages');
+    if(!box) return;
+    let html = '';
+    if(state.messages.length === 0){
+      html += `<div class="msg system-note">Hãy bắt đầu bằng việc mô tả bạn đang làm bài gì và đang vướng ở đâu (Bước Critique). Đừng hỏi thẳng đáp số nhé!</div>`;
+    }
+    for(const m of state.messages){
+      if(m.role === 'user'){
+        html += `<div class="msg user">${escapeHtml(m.content)}</div>`;
+      } else {
+        const tagMatch = m.content.match(/^\\[(CRITIQUE|CORE|CONSOLIDATE)\\]/i);
+        const tag = tagMatch ? `<span class="step-tag">${tagMatch[1].toUpperCase()}</span><br/>` : '';
+        const body = tagMatch ? m.content.replace(tagMatch[0],'').trim() : m.content;
+        html += `<div class="msg assistant">${tag}${escapeHtml(body)}</div>`;
+      }
+    }
+    if(state.sending){
+      html += `<div class="typing">AI đang gợi ý...</div>`;
+    }
+    box.innerHTML = html;
+    box.scrollTop = box.scrollHeight;
+  }
+
+  async function handleSend(){
+    const ta = document.getElementById('input');
+    const text = ta.value.trim();
+    if(!text || state.sending) return;
+    ta.value = '';
+    state.messages.push({role:'user', content:text, ts:Date.now()});
+    state.sending = true;
+    renderMessages();
+    document.getElementById('sendBtn').disabled = true;
+
+    try{
+      let replyText = await askAI(state.messages);
+      if(!replyText){ replyText = '[CORE]\\nXin lỗi, mình chưa nhận được phản hồi rõ ràng. Bạn thử mô tả lại chỗ đang vướng nhé?'; }
+      state.messages.push({role:'assistant', content:replyText, ts:Date.now()});
+    }catch(e){
+      state.messages.push({role:'assistant', content:'[CORE]\\nCó lỗi kết nối, bạn thử gửi lại câu hỏi nhé.', ts:Date.now()});
+    }
+    state.sending = false;
+    document.getElementById('sendBtn').disabled = false;
+    renderMessages();
+    saveHistory();
+  }
+
+  // ---------- Researcher view ----------
+  async function loadResearcherLogs(){
+    try{
+      const listRes = await window.storage.list('log:', true);
+      const keys = (listRes && listRes.keys) || [];
+      const logs = [];
+      for(const k of keys){
+        try{
+          const r = await window.storage.get(k, true);
+          if(r && r.value){
+            logs.push({ key:k, code:k.replace('log:',''), messages: JSON.parse(r.value) });
+          }
+        }catch(e){}
+      }
+      state.researcherLogs = logs;
+    }catch(e){
+      state.researcherLogs = [];
+    }
+    renderResearcher();
+  }
+
+  function renderResearcher(){
+    root.innerHTML = `
+      <div class="topbar">
+        <div class="brand">Nhật ký hội thoại · Nhóm nghiên cứu<small>Phân loại Critique – Core – Consolidate</small></div>
+        <div class="actions">
+          <button class="pillbtn" id="backBtn">← Quay lại</button>
+        </div>
+      </div>
+      <div class="researcher">
+        <div class="warn">Dữ liệu ở đây dùng chung (shared storage): bất kỳ ai mở công cụ này đều có thể xem danh sách log. Chỉ dùng mã số (không có tên thật) để đảm bảo ẩn danh theo mục 3.3.4.</div>
+        <div class="toolbar">
+          <button class="smallbtn" id="refreshBtn">Tải lại danh sách</button>
+          <button class="smallbtn secondary" id="exportBtn">Tải toàn bộ dữ liệu (JSON)</button>
+        </div>
+        <div id="logList"></div>
+      </div>
+    `;
+    document.getElementById('backBtn').onclick = ()=>{ state.screen='login'; render(); };
+    document.getElementById('refreshBtn').onclick = loadResearcherLogs;
+    document.getElementById('exportBtn').onclick = exportLogs;
+
+    const list = document.getElementById('logList');
+    if(state.researcherLogs === null){
+      list.innerHTML = `<div class="empty">Đang tải log...</div>`;
+      return;
+    }
+    if(state.researcherLogs.length === 0){
+      list.innerHTML = `<div class="empty">Chưa có log nào được ghi nhận.</div>`;
+      return;
+    }
+    list.innerHTML = state.researcherLogs.map(log=>{
+      const isOpen = state.openLogKey === log.key;
+      const bodyHtml = log.messages.map(m=>{
+        const who = m.role==='user' ? 'Học sinh' : 'AI';
+        return `<div style="margin-bottom:8px;"><b style="font-size:12px;color:var(--navy);">${who}:</b> <span style="font-size:13px;">${escapeHtml(m.content)}</span></div>`;
+      }).join('');
+      return `
+        <div class="logrow">
+          <div class="logrow-head" data-key="${escapeHtml(log.key)}">
+            <b>Mã số: ${escapeHtml(log.code)}</b>
+            <span>${log.messages.length} lượt thoại ${isOpen ? '▲' : '▼'}</span>
+          </div>
+          <div class="logrow-body ${isOpen?'open':''}">${bodyHtml || '<span class="empty">Trống</span>'}</div>
+        </div>
+      `;
+    }).join('');
+
+    list.querySelectorAll('.logrow-head').forEach(el=>{
+      el.onclick = ()=>{
+        const key = el.getAttribute('data-key');
+        state.openLogKey = state.openLogKey === key ? null : key;
+        renderResearcher();
+      };
+    });
+  }
+
+  function exportLogs(){
+    if(!state.researcherLogs) return;
+    const blob = new Blob([JSON.stringify(state.researcherLogs, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'log-hoi-thoai-3C.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  render();
+})();
+</script>
